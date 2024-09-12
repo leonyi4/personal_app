@@ -1,5 +1,7 @@
 import './App.css'
 import React, { useState } from "react";
+import MedicineSelection from './MedicineSelection';
+import OtherMedicine from './OtherMedicine';
 
 function App() {
 
@@ -20,6 +22,7 @@ function App() {
 
   const [otherMedicine, setOtherMedicine] = useState({ selected: false, name: "", amount: "" });
 
+  //handle changes in medicine selection
   const handleMedicineChange = (e) => {
     const { name, checked } = e.target
     setMedicines({
@@ -31,7 +34,8 @@ function App() {
       }
     })
   }
-
+  
+  //handle changes in medicine amount
   const handleAmountChange = (e, medicineName) => {
 
     if (!medicines[medicineName].selected) {
@@ -48,30 +52,32 @@ function App() {
     });
   };
 
+  // handle other medicne checkbox
   const handleOtherMedicineCheckbox = (e) => {
     const { checked } = e.target;
     setOtherMedicine({ ...otherMedicine, selected: checked });
   };
 
+  // handle changes in name of other medicine
   const handleOtherMedicineChange = (e) => {
     const { name, value } = e.target;
     setOtherMedicine((prevState) => {
       const newState = {
-          ...prevState,
-          [name]: value,
+        ...prevState,
+        [name]: value,
       };
 
       // Reset amount if the name is empty
       if (name === "name" && value === "") {
-          newState.amount = "";
+        newState.amount = "";
       }
 
       return newState;
-  });
+    });
   };
 
+  // Detect changes in other medicine amount
   const handleOtherMedicineAmountChange = (e) => {
-    console.log(otherMedicine.name)
     if (!otherMedicine.name) {
       return
     }
@@ -108,87 +114,25 @@ function App() {
         <h1>Personal Planner App</h1>
       </div>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            <input type='checkbox' name='meloxicam' checked={medicines.meloxicam.selected} onChange={(e) => handleMedicineChange(e, "meloxicam")} />
-            Meloxicam
-          </label>
-          <label>
-            <input type="radio" value="1" checked={medicines.meloxicam.amount === "1"} onChange={(e) => handleAmountChange(e, "meloxicam")} />
-            1
-          </label>
-          <label>
-            <input
-              type="radio" value="2" checked={medicines.meloxicam.amount === "2"} onChange={(e) => handleAmountChange(e, "meloxicam")} />
-            2
-          </label>
-          <label>
-            <input type="radio" value="3" checked={medicines.meloxicam.amount === "3"} onChange={(e) => handleAmountChange(e, "meloxicam")} />
-            3
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type='checkbox' name='omeprazole' checked={medicines.omeprazole.selected} onChange={(e) => handleMedicineChange(e, "omeprazole")} />
-            Omeprazole
-          </label>
-          <label>
-            <input type="radio" value="1" checked={medicines.omeprazole.amount === "1"} onChange={(e) => handleAmountChange(e, "omeprazole")} />
-            1
-          </label>
-          <label>
-            <input
-              type="radio" value="2" checked={medicines.omeprazole.amount === "2"} onChange={(e) => handleAmountChange(e, "omeprazole")} />
-            2
-          </label>
-          <label>
-            <input type="radio" value="3" checked={medicines.omeprazole.amount === "3"} onChange={(e) => handleAmountChange(e, "omeprazole")} />
-            3
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type='checkbox' name='paracetamol' checked={medicines.paracetamol.selected} onChange={(e) => handleMedicineChange(e, "paracetamol")} />
-            Paracetamol
-          </label>
-          <label>
-            <input type="radio" value="1" checked={medicines.paracetamol.amount === "1"} onChange={(e) => handleAmountChange(e, "paracetamol")} />
-            1
-          </label>
-          <label>
-            <input
-              type="radio" value="2" checked={medicines.paracetamol.amount === "2"} onChange={(e) => handleAmountChange(e, "paracetamol")} />
-            2
-          </label>
-          <label>
-            <input type="radio" value="3" checked={medicines.paracetamol.amount === "3"} onChange={(e) => handleAmountChange(e, "paracetamol")} />
-            3
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type='checkbox' checked={otherMedicine.selected} onChange={handleOtherMedicineCheckbox} />
-            Other
-          </label>
-          {otherMedicine.selected && (
-            <div>
-              <input type='text' placeholder='Enter medicine name' value={otherMedicine.name} onChange={handleOtherMedicineChange} name='name' />
-              <label>
-                <input type="radio" value="1" checked={otherMedicine.amount === "1"} onChange={handleOtherMedicineAmountChange} />
-                1
-              </label>
-              <label>
-                <input
-                  type="radio" value="2" checked={otherMedicine.amount === "2"} onChange={handleOtherMedicineAmountChange} />
-                2
-              </label>
-              <label>
-                <input type="radio" value="3" checked={otherMedicine.amount === "3"} onChange={handleOtherMedicineAmountChange} />
-                3
-              </label>
-            </div>
-          )}
-        </div>
+        {Object.keys(medicines).map((medicineName) => (
+          <MedicineSelection
+            key={medicineName}
+            name={medicineName}
+            selected={medicines[medicineName].selected}
+            amount={medicines[medicineName].amount}
+            onChangeMedicine={handleMedicineChange}
+            onChangeAmount={handleAmountChange}
+          />
+        ))}
+        <OtherMedicine 
+          selected={otherMedicine.selected}
+          amount={otherMedicine.amount}
+          name={otherMedicine.name}
+          onCheckboxChange={handleOtherMedicineCheckbox}
+          onNameChange={handleOtherMedicineChange}
+          onOtherAmountChange={handleOtherMedicineAmountChange}
+        />
+        
         <button type='submit'>Submit</button>
       </form>
 
