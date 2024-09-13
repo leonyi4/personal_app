@@ -5,15 +5,6 @@ import OtherMedicine from './OtherMedicine';
 
 function App() {
 
-  // const [medicine, setMedicine] = useState("")
-  // const [amount, setAmount] = useState("")
-  //const [paracetamol, setParacetamol] = useState("")
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   alert(`Medicine: ${medicine}, Amount: ${amount}`);
-  // };
-
   const [medicines, setMedicines] = useState({
     meloxicam: { selected: false, amount: "" },
     omeprazole: { selected: false, amount: "" },
@@ -21,6 +12,12 @@ function App() {
   })
 
   const [otherMedicine, setOtherMedicine] = useState({ selected: false, name: "", amount: "" });
+
+  const getTodayDate = () =>{
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  }
+  const [medicineDate, setMedicineDate] = useState(getTodayDate)
 
   //handle changes in medicine selection
   const handleMedicineChange = (e) => {
@@ -34,7 +31,7 @@ function App() {
       }
     })
   }
-  
+
   //handle changes in medicine amount
   const handleAmountChange = (e, medicineName) => {
 
@@ -94,6 +91,17 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault()
 
+    const isAnyMedicineSelected = Object.keys(medicines).some(
+      (key) => medicines[key].selected
+    )
+
+    const isOtherMedicineValid = otherMedicine.selected && otherMedicine.name;
+
+    if (!isAnyMedicineSelected && !isOtherMedicineValid) {
+      alert("Enter at least one medicine!")
+      return;
+    }
+
     // Filter Selected Medicines
     const selectedMedicines = Object.keys(medicines).filter((key) => medicines[key].selected)
 
@@ -105,7 +113,11 @@ function App() {
     }
 
 
-    alert(`Medicines and amounts: ${medicineAmounts.join(", ")}`);
+    alert(`Medicines and amounts: ${medicineAmounts.join(", ")}, submited on date: ${medicineDate}`);
+  }
+
+  const handleSubmit2 = (e) => {
+    e.preventDefault()
   }
 
   return (
@@ -113,29 +125,38 @@ function App() {
       <div>
         <h1>Personal Planner App</h1>
       </div>
-      <form onSubmit={handleSubmit}>
-        {Object.keys(medicines).map((medicineName) => (
-          <MedicineSelection
-            key={medicineName}
-            name={medicineName}
-            selected={medicines[medicineName].selected}
-            amount={medicines[medicineName].amount}
-            onChangeMedicine={handleMedicineChange}
-            onChangeAmount={handleAmountChange}
-          />
-        ))}
-        <OtherMedicine 
-          selected={otherMedicine.selected}
-          amount={otherMedicine.amount}
-          name={otherMedicine.name}
-          onCheckboxChange={handleOtherMedicineCheckbox}
-          onNameChange={handleOtherMedicineChange}
-          onOtherAmountChange={handleOtherMedicineAmountChange}
-        />
-        
-        <button type='submit'>Submit</button>
-      </form>
+      <div>
+        <h2>Medicine</h2>
+        <form onSubmit={handleSubmit}>
 
+          {Object.keys(medicines).map((medicineName) => (
+            <MedicineSelection
+              key={medicineName}
+              name={medicineName}
+              selected={medicines[medicineName].selected}
+              amount={medicines[medicineName].amount}
+              onChangeMedicine={handleMedicineChange}
+              onChangeAmount={handleAmountChange}
+            />
+          ))}
+          <OtherMedicine
+            selected={otherMedicine.selected}
+            amount={otherMedicine.amount}
+            name={otherMedicine.name}
+            onCheckboxChange={handleOtherMedicineCheckbox}
+            onNameChange={handleOtherMedicineChange}
+            onOtherAmountChange={handleOtherMedicineAmountChange}
+          />
+          <input type='date' name='medicineDate' value={medicineDate} onChange={(e) => setMedicineDate(e.target.value)} />
+          <button type='submit'>Submit</button>
+        </form>
+      </div>
+      <div>
+        <h2>Budget</h2>
+        <form onSubmit={handleSubmit2}>
+          <label>Enter Spendings</label>
+        </form>
+      </div>
     </>
   )
 }
