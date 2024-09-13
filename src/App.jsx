@@ -130,7 +130,7 @@ function App() {
   const [spendingType, setSpendingType] = useState("");
   const [spendingAmount, setSpendingAmount] = useState("");
   const [spendingList, setSpendingList] = useState([]);
-  const [editingIndex, setEditingIndex] = useState(-1);
+  const [editingIndex, setEditingIndex] = useState(-1); // For editing spendings
 
   const handleSpendingTypeChange = (e) => {
     setSpendingType(e.target.value);
@@ -148,6 +148,7 @@ function App() {
         amount: spendingAmount,
       };
 
+      // if new, add to list. if old, change the inputs to the selected spending
       if (editingIndex === -1) {
         setSpendingList([...spendingList, newSpending]);
       } else {
@@ -161,7 +162,13 @@ function App() {
       setSpendingType("");
       setSpendingAmount("");
     } else {
-      alert("Select a spending type and enter the amount");
+      if (!spendingType) {
+        alert("select a spending type");
+      } else if (!spendingAmount) {
+        alert("enter the spending amount");
+      } else {
+        alert("Select a spending type and enter the amount");
+      }
     }
   };
 
@@ -184,11 +191,11 @@ function App() {
       console.log("Final spending list:", spendingList);
       alert(`Spending data submitted: ${JSON.stringify(spendingList)}`);
 
-      setSpendingList([])
+      setSpendingList([]);
 
-      setSpendingAmount("")
-      setSpendingType("")
-      setEditingIndex(-1)
+      setSpendingAmount("");
+      setSpendingType("");
+      setEditingIndex(-1);
     } else {
       alert("No spending added!s");
     }
@@ -254,13 +261,14 @@ function App() {
             value={spendingAmount}
             placeholder="Thb"
             onChange={handleSpendingAmountChange}
+            min="0"
           />
           <button type="button" onClick={handleAddSpending}>
             {editingIndex === -1 ? "Add" : "Update"}
           </button>
           <button type="reset">Cancel</button>
 
-          <button type='submit'>Submit</button>
+          <button type="submit">Submit</button>
         </form>
 
         <h3>Spending List</h3>
@@ -268,8 +276,10 @@ function App() {
           {spendingList.map((spending, index) => (
             <li key={index}>
               {spending.type}: {spending.amount}
-              <button onClick={() =>handleEditSpending(index)}>Edit</button>
-              <button onClick={() => handleRemoveSpending(index)}>Remove</button>
+              <button onClick={() => handleEditSpending(index)}>Edit</button>
+              <button onClick={() => handleRemoveSpending(index)}>
+                Remove
+              </button>
             </li>
           ))}
         </ul>
