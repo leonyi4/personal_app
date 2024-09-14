@@ -132,11 +132,22 @@ const Medicines = (props) => {
     }
 
     const medicineData = {
-      ...medicineAmounts, // Spread existing medicine and amounts into new object
+      medicineAmounts, // Spread existing medicine and amounts into new object
       date: medicineDate, // Add date as a new property
     };
 
-    console.log(medicineData);
+    props.onSubmit(medicineData);
+
+    setMedicines({
+      meloxicam: { selected: false, amount: "" },
+      omeprazole: { selected: false, amount: "" },
+      paracetamol: { selected: false, amount: "" },
+    });
+    setOtherMedicine({
+      selected: false,
+      name: "",
+      amount: "",
+    });
   };
 
   return (

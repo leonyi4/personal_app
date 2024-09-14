@@ -8,8 +8,11 @@ import Medicines from "./Components/Medicines";
 function App() {
 
   // Spendings
-  const handleSpendingSubmit = (data) => {
-    console.log("spendings", data);
+  const handleMedicineSubmit = (mData) => {
+    console.log("Medicnes", mData);
+  };
+  const handleSpendingSubmit = (sData) => {
+    console.log("spendings", sData);
   };
 
   return (
@@ -17,7 +20,7 @@ function App() {
       <div>
         <h1>Personal Planner App</h1>
       </div>
-      <Medicines />
+      <Medicines onSubmit={handleMedicineSubmit} />
       <Spendings onSubmit={handleSpendingSubmit} />
     </>
   );

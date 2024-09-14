@@ -6,6 +6,15 @@ const Spendings = (props) => {
   const [spendingList, setSpendingList] = useState([]);
   const [editingIndex, setEditingIndex] = useState(-1); // For editing spendings
 
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed, so add 1
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+  const [spendingDate, setSpendingDate] = useState(getTodayDate);
+
   const handleSpendingTypeChange = (e) => {
     setSpendingType(e.target.value);
   };
@@ -68,8 +77,12 @@ const Spendings = (props) => {
         return acc;  // Return the updated accumulator
       }, {});  // Start with an empty object
 
+      const finalSpendingData = {
+        ...spendingData, // Spread existing medicine and amounts into new object
+        date: spendingDate, // Add date as a new property
+      };
 
-      props.onSubmit(spendingData); // sends the data to app.jsx
+      props.onSubmit(finalSpendingData); // sends the data to app.jsx
 
       
       setSpendingList([]);
@@ -108,6 +121,12 @@ const Spendings = (props) => {
           placeholder="Thb"
           onChange={handleSpendingAmountChange}
           min="0"
+        />
+        <input
+          type="date"
+          name="spendingDate"
+          value={spendingDate}
+          onChange={(e) => setSpendingDate(e.target.value)}
         />
         <button type="button" onClick={handleAddSpending}>
           {editingIndex === -1 ? "Add" : "Update"}
