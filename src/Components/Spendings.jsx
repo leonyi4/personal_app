@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const Spendings = (props) => {
   const [spendingType, setSpendingType] = useState("");
   const [spendingAmount, setSpendingAmount] = useState("");
-  const [spendingList, setSpendingList] = useState([]); 
+  const [spendingList, setSpendingList] = useState([]);
   const [editingIndex, setEditingIndex] = useState(-1); // For editing spendings
 
   const handleSpendingTypeChange = (e) => {
@@ -26,7 +26,7 @@ const Spendings = (props) => {
       if (editingIndex === -1) {
         setSpendingList([...spendingList, newSpending]); //old list + new input
       } else {
-        const updateSpendingList = [...spendingList];  //copy old list
+        const updateSpendingList = [...spendingList]; //copy old list
         updateSpendingList[editingIndex] = newSpending; //add new spending in the index of old spending in the updated list
         setSpendingList(updateSpendingList); // set the updated list as current spending list
         setEditingIndex(-1); // reset index
@@ -35,7 +35,6 @@ const Spendings = (props) => {
       //reset
       setSpendingType("");
       setSpendingAmount("");
-
     } else {
       if (!spendingType) {
         alert("select a spending type");
@@ -62,17 +61,22 @@ const Spendings = (props) => {
   const hanldeSubmitSpending = (e) => {
     e.preventDefault();
     if (spendingList) {
-      // Handle the final form submission logic here
-    //   console.log("Final spending list:", spendingList);
-    //   alert(`Spending data submitted: ${JSON.stringify(spendingList)}`);
 
+
+      const spendingData = spendingList.reduce((acc, { type, amount }) => {
+        acc[type] = amount;  // Assign amount to the type key
+        return acc;  // Return the updated accumulator
+      }, {});  // Start with an empty object
+
+
+      props.onSubmit(spendingData); // sends the data to app.jsx
+
+      
       setSpendingList([]);
 
       setSpendingAmount("");
       setSpendingType("");
       setEditingIndex(-1);
-
-      props.onSubmit(spendingList) // sends the data to app.jsx 
     } else {
       alert("No spending added!s");
     }
