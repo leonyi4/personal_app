@@ -1,16 +1,42 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import './Nav.css'
 
 const Nav = () => {
   return (
-    <nav>
-      <div>Personal Planner App</div>
+    <nav className="flex justify-between items-center bg-gray-100 p-4 shadow-md">
+      <div className="text-2xl font-bold">Personal Planner App</div>
       <div>
-        <ul>
-          <li><NavLink to='/'>Home</NavLink></li>
-          <li><NavLink to='/medicine'>Medicine</NavLink></li>
-          <li><NavLink to='/spendings'>Spendings</NavLink></li>
+        <ul className="flex space-x-8 text-lg">
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "text-blue-500" : "text-gray-700"
+              }
+            >
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/medicine"
+              className={({ isActive }) =>
+                isActive ? "text-blue-500" : "text-gray-700"
+              }
+            >
+              Medicine
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/spendings"
+              className={({ isActive }) =>
+                isActive ? "text-blue-500" : "text-gray-700"
+              }
+            >
+              Spendings
+            </NavLink>
+          </li>
         </ul>
       </div>
     </nav>
