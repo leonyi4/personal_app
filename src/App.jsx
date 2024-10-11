@@ -1,13 +1,11 @@
-import "./App.css";
 import React, { useState } from "react";
-import MedicineSelection from "./Components/MedicineSelection";
-import OtherMedicine from "./Components/OtherMedicine";
-import Spendings from "./Components/Spendings";
-import Medicines from "./Components/Medicines";
+import Spendings from "./routes/Spendings/Spendings";
+import Medicines from "./routes/Medicine/Medicines";
+import Nav from "./Components/Nav";
+import { Outlet } from "react-router-dom";
 
 function App() {
 
-  // Spendings
   const handleMedicineSubmit = (mData) => {
     console.log("Medicnes", mData);
   };
@@ -17,11 +15,13 @@ function App() {
 
   return (
     <>
-      <div>
-        <h1>Personal Planner App</h1>
-      </div>
-      <Medicines onSubmit={handleMedicineSubmit} />
-      <Spendings onSubmit={handleSpendingSubmit} />
+      <Nav/>
+      <main>
+        <Outlet/>
+        <Medicines onSubmit={handleMedicineSubmit} />
+        <Spendings onSubmit={handleSpendingSubmit} />
+      </main>
+      
     </>
   );
 }
