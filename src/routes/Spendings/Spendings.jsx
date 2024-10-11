@@ -70,12 +70,10 @@ const Spendings = (props) => {
   const hanldeSubmitSpending = (e) => {
     e.preventDefault();
     if (spendingList) {
-
-
       const spendingData = spendingList.reduce((acc, { type, amount }) => {
-        acc[type] = amount;  // Assign amount to the type key
-        return acc;  // Return the updated accumulator
-      }, {});  // Start with an empty object
+        acc[type] = amount; // Assign amount to the type key
+        return acc; // Return the updated accumulator
+      }, {}); // Start with an empty object
 
       const finalSpendingData = {
         ...spendingData, // Spread existing medicine and amounts into new object
@@ -84,7 +82,6 @@ const Spendings = (props) => {
 
       props.onSubmit(finalSpendingData); // sends the data to app.jsx
 
-      
       setSpendingList([]);
 
       setSpendingAmount("");
@@ -96,14 +93,17 @@ const Spendings = (props) => {
   };
 
   return (
-    <div>
-      <h2>Budget</h2>
-      <label>Enter Spendings</label>
-      <form onSubmit={hanldeSubmitSpending}>
+    <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-md">
+      <h2 className="font-bold text-3xl text-gray-800 mb-6 text-center">
+        Budget
+      </h2>
+      <form onSubmit={hanldeSubmitSpending} className="space-y-6">
+        {/* Spending Type */}
         <select
           name="spendingType"
           value={spendingType}
           onChange={handleSpendingTypeChange}
+          className="block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Select Type</option>
           <option value="food">Food</option>
@@ -114,6 +114,8 @@ const Spendings = (props) => {
           <option value="bills">Bills</option>
           <option value="family">Family</option>
         </select>
+
+        {/* Spending Amount */}
         <input
           type="number"
           name="spendingAmount"
@@ -121,19 +123,49 @@ const Spendings = (props) => {
           placeholder="Thb"
           onChange={handleSpendingAmountChange}
           min="0"
+          className="block w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <input
-          type="date"
-          name="spendingDate"
-          value={spendingDate}
-          onChange={(e) => setSpendingDate(e.target.value)}
-        />
-        <button type="button" onClick={handleAddSpending}>
-          {editingIndex === -1 ? "Add" : "Update"}
-        </button>
-        <button type="reset">Cancel</button>
 
-        <button type="submit">Submit</button>
+        {/*Date Selection */}
+        <div className="flex flex-col space-y-3">
+          <label className="font-semi-bold text-gray-700">Select Date</label>
+          <input
+            type="date"
+            name="spendingDate"
+            value={spendingDate}
+            onChange={(e) => setSpendingDate(e.target.value)}
+            className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        {/* Buttons for Adding and Submitting Spendings */}
+        <div className="flex justify-center space-x-3">
+          <button
+            type="button"
+            onClick={handleAddSpending}
+            className="bg-green-500 text-white py-2 px-4 rounded-lg shadow 
+            hover:bg-green-600 transition duration-300 ease-in-out"
+          >
+            {editingIndex === -1 ? "Add" : "Update"}
+          </button>
+
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow 
+            hover:bg-blue-600 transition duration-300 ease-in-out"
+          >
+            Submit
+          </button>
+          
+          <button
+            type="reset"
+            className="bg-red-500 text-white py-2 px-4 rounded-lg shadow 
+            hover:bg-red-600 transition duration-300 ease-in-out"
+          >
+            Cancel
+          </button> 
+
+          
+        </div>
       </form>
 
       <h3>Spending List</h3>
