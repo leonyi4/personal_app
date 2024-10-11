@@ -14,13 +14,14 @@ function App() {
   };
 
   return (
-    <>
+    <div>
       <Nav/>
       <main>
         <Outlet/>
+
       </main>
       
-    </>
+    </div>
   );
 }
 

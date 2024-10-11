@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const Nav = () => {
   return (
-    <nav className="flex justify-between items-center bg-gray-100 p-4 shadow-md">
+    <nav className="flex justify-between items-center bg-green-300 p-4 shadow-md mb-10">
       <div className="text-2xl font-bold">Personal Planner App</div>
       <div>
         <ul className="flex space-x-8 text-lg">
