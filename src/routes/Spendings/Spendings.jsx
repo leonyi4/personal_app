@@ -147,7 +147,6 @@ const Spendings = (props) => {
           >
             {editingIndex === -1 ? "Add" : "Update"}
           </button>
-
           <button
             type="submit"
             className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow 
@@ -155,26 +154,40 @@ const Spendings = (props) => {
           >
             Submit
           </button>
-          
           <button
             type="reset"
             className="bg-red-500 text-white py-2 px-4 rounded-lg shadow 
             hover:bg-red-600 transition duration-300 ease-in-out"
           >
             Cancel
-          </button> 
-
-          
+          </button>
         </div>
       </form>
 
-      <h3>Spending List</h3>
-      <ul>
+      <h3 className="font-bold text-xl text-gray-800 mt-8">Spending List</h3>
+      <ul className="space-y-2">
         {spendingList.map((spending, index) => (
-          <li key={index}>
-            {spending.type}: {spending.amount}
-            <button onClick={() => handleEditSpending(index)}>Edit</button>
-            <button onClick={() => handleRemoveSpending(index)}>Remove</button>
+          <li
+            key={index}
+            className="flex justify-between items-center p-2 bg-gray-100 rounded-lg"
+          >
+            <span>{spending.type}: {spending.amount}</span>
+            <div className="flex justify-center space-x-2">
+              <button
+                className="bg-blue-500 text-white py-1 px-2 rounded-lg shadow 
+            hover:bg-blue-600 transition duration-300 ease-in-out"
+                onClick={() => handleEditSpending(index)}
+              >
+                Edit
+              </button>
+              <button
+                className="bg-red-500 text-white py-1 px-2 rounded-md shadow 
+            hover:bg-red-600 transition duration-300 ease-in-out"
+                onClick={() => handleRemoveSpending(index)}
+              >
+                Remove
+              </button>
+            </div>
           </li>
         ))}
       </ul>
