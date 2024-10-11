@@ -152,7 +152,7 @@ const Medicines = (props) => {
 
   return (
     <div>
-      <h2>Medicine</h2>
+      <h2 >Medicine</h2>
       <form onSubmit={handleSubmit}>
         {Object.keys(medicines).map((medicineName) => (
           <MedicineSelection
