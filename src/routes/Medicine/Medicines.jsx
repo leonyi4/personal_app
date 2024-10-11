@@ -151,9 +151,11 @@ const Medicines = (props) => {
   };
 
   return (
-    <div>
-      <h2 >Medicine</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-md">
+      <h2 className="font-bold text-3xl text-gray-800 mb-6 text-center">
+        Medicine
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
         {Object.keys(medicines).map((medicineName) => (
           <MedicineSelection
             key={medicineName}
@@ -172,13 +174,24 @@ const Medicines = (props) => {
           onNameChange={handleOtherMedicineChange}
           onOtherAmountChange={handleOtherMedicineAmountChange}
         />
-        <input
-          type="date"
-          name="medicineDate"
-          value={medicineDate}
-          onChange={(e) => setMedicineDate(e.target.value)}
-        />
-        <button type="submit">Submit</button>
+        <div className="flex flex-col space-y-3">
+          <label className="font-semi-bold text-gray-700">
+            Select Date:
+          </label>
+          <input
+            type="date"
+            name="medicineDate"
+            value={medicineDate}
+            onChange={(e) => setMedicineDate(e.target.value)}
+            className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition duration-300 ease-in-out"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );

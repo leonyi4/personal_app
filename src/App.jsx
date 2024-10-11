@@ -18,8 +18,6 @@ function App() {
       <Nav/>
       <main>
         <Outlet/>
-        <Medicines onSubmit={handleMedicineSubmit} />
-        <Spendings onSubmit={handleSpendingSubmit} />
       </main>
       
     </>
